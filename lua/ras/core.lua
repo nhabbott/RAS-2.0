@@ -12,6 +12,7 @@ RAS = {}
 include( "ras/config.lua" )
 include( "ras/antispam.lua" )
 include( "ras/admincoms.lua" )
+include( "include/mysqlite.lua" )
 require( "tmysql4" )
 
 --[[Load the config on server startup & Config Func.]]--
