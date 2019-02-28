@@ -1,0 +1,22 @@
+local config = RAS.Config
+config.Language = {}
+local langconfig = config.Language
+langconfig["English"] = {}
+
+langconfig["English"]["Yes"] = "Yes"
+langconfig["English"]["No"] = "No"
+langconfig["English"]["Close"] = "Close"
+langconfig["English"]["Comfirm"] = "Comfirm"
+langconfig["English"]["NotificationTitle"] = "RAS Notification"
+langconfig["English"]["ChatBannedResp"] = "Your message was not sent because you are banned from chatting"
+langconfig["English"]["ChatSpamResp"] = "Your message was not sent because you are on a chat cooldown. Please stop spamming the server!"
+langconfig["English"]["PropBannedResp"] = "Sorry, you are banned from spawning props"
+langconfig["English"]["PropSpamResp"] = "You cannot spawn props because you are on a cooldown. Please stop spamming the server!"
+langconfig["English"]["SentBannedResp"] = "Sorry, you are banned from spawning scripted entities"
+langconfig["English"]["SentSpamResp"] = "You cannot spawn scripted entities because you are on a cooldown. Please stop spamming the server!"
+langconfig["English"]["RagdollBannedResp"] = "Sorry, you are banned from spawning ragdolls"
+langconfig["English"]["RagdollSpamResp"] = "You cannot spawn ragdolls because you are on a cooldown. Please stop spamming the server!"
+langconfig["English"]["VehicleBannedResp"] = "Sorry, you are banned from spawning vehicles"
+langconfig["English"]["VehicleSpamResp"] = "You cannot spawn vehicles because you are on a cooldown. Please stop spamming the server!"
+langconfig["English"]["NpcBannedResp"] = "Sorry, you are banned from spawning NPCs"
+langconfig["English"]["NpcSpamResp"] = "You cannot spawn vehicles because you are on a cooldown. Please stop spamming the server!"

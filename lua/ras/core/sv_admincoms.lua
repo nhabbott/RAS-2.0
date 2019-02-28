@@ -1,9 +1,3 @@
-include( "ras/config.lua" )
-require( "tmysql4" )
-
--- Local Functions --
-local Database, error = tmysql.initialize( RAS.MySQL.Host, RAS.MySQL.User, RAS.MySQL.Pass, RAS.MySQL.Database, RAS.MySQL.Port, nil, nil )
-
 local function CheckNumberFunc( input )
 	if ( type(tonumber(input)) == "number" ) then
 		if ( tonumber(input) >= 0 ) then
