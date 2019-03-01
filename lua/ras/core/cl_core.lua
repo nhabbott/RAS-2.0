@@ -4,7 +4,7 @@ RAS.NotifySystem = function(type, message)
   local NotifyPanel = vgui.Create("DNotify")
   NotifyPanel:SetPos(15, 15)
   NotifyPanel:SetSize(160, 50)
-  NotifyPanel:SetLife(10)
+  NotifyPanel:SetLife(5)
 
   local bg = vgui.Create("DPanel", NotifyPanel)
   bg:Dock(FILL)

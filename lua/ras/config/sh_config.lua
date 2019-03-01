@@ -10,9 +10,11 @@ if (SERVER) then
 	-- The RAS system is enabled by default
 	config.AntiSpamming = true
 
+	-- ALL DELAYS ARE IN SECONDS! --
+
 	-- Chat RAS Settings
 	config.Chat.Enabled = true
-	config.Chat.Delay = 5
+	config.Chat.Delay = 15
 
 	-- Prop RAS Settings
 	config.Prop.Enabled = true

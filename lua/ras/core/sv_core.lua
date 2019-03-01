@@ -109,6 +109,14 @@ function plymeta:RASGetBanReason()
 end
 
 function RASPlayerInitialSpawnFunction(ply)
+	ply.ChatCooldown = os.time()
+	ply.PropCooldown = os.time()
+	ply.SentCooldown = os.time()
+	ply.EffectCooldown = os.time()
+	ply.RagdollCooldown = os.time()
+	ply.VehicleCooldown = os.time()
+	ply.NpcCooldown = os.time()
+
 	RAS.QueryDatabase("SELECT * FROM exemptplayers WHERE sid = " .. ply:SteamID64(), function(worked, result, lid)
 		if result or result[1].affected == 1 then
 			if RAS.Config.SavingMethod == "tmysql4" then
@@ -141,39 +149,50 @@ end
 
 hook.Add("PlayerInitialSpawn", "RASPlayerInitialSpawn", function(ply)
 	if RAS.MySQL == nil then
-		timer.Simple(5,function()
+		timer.Simple(5, function()
 			RASPlayerInitialSpawnFunction(ply)
 		end)
 	else
 		RASPlayerInitialSpawnFunction(ply)
 	end
-	timer.Simple(5,function()
+	timer.Simple(5, function()
 		RASPlayerInitialSpawnFunction(ply)
 	end)
 end)
 
-net.Receive("RASUnBanUser",function(len, ply)
-	local bsidtub = RAS.EscapeString(net.ReadString())
+net.Receive("RASUnBanUser", function(len, ply)
+	local playertounban = net.ReadEntity()
+	local type = RAS.EscapeString(net.ReadString())
 
 	if RAS.HasPerms(ply) then
-		for k, v in pairs(RAS.BannedEmployees) do
-			if v.bsid == bsidtub then
-				table.remove(RAS.BannedEmployees,k)
-				RAS.QueryDatabase("DELETE FROM bannedplayers WHERE bsid = " .. bsidtub, function() end)
+		for k, v in pairs(RAS.BannedPlayers) do
+			if v.bsid == playertounban:SteamID64() then
+				table.remove(RAS.BannedPlayers, k)
+				RAS.QueryDatabase("DELETE FROM `bannedplayers` WHERE `bsid` = ".."`"..playertounban:SteamID64().."`", function() end)
+
+				local msg = string.gsub(config.Language[config.LanguageToUse]["PlayerUnBanned"], "{RAS_Player}", playertounban:Nick())
+				msg = string.gsub(msg, "{RAS_Type}", type)
+				RAS.NotifySystem(ply, "ban", msg)
 			end
 		end
 	end
 end)
 
-net.Receive("RASBanUser",function(len, ply)
+net.Receive("RASBanUser", function(len, ply)
 	local playertoban = net.ReadEntity()
 	local banreason = RAS.EscapeString(net.ReadString())
+	local type = RAS.EscapeString(net.ReadString())
+	local expiretime = RAS.EscapeString(net.ReadInt())
 
 	if !IsValid(playertoban) then return end
 	if playertoban:RASIsBanned() then return end
 
 	if RAS.HasPerms(ply) then
-		RAS.QueryDatabase("INSERT INTO bannedplayers (bsid, asid, reason) VALUES ('" .. playertoban:SteamID64() .. "', '" .. ply:SteamID64() .. "', '" .. banreason .. "')", function() end)
-		table.insert(RAS.BannedPlayers, {bsid = playertoban:SteamID64(), asid = ply:SteamID64(), reason = banreason, name = playertoban:Nick()})
+		table.insert(RAS.BannedPlayers, {bsid = playertoban:SteamID64(), asid = ply:SteamID64(), reason = banreason, type = type, expiretime = expiretime})
+		RAS.QueryDatabase("INSERT INTO bannedplayers (bsid, asid, reason, type, expire_time) VALUES (`"..playertoban:SteamID64().."`, `"..ply:SteamID64().."`, `"..banreason.."`, `"..type.."`, `"..expiretime.."`)", function() end)
+
+		local msg = string.gsub(config.Language[config.LanguageToUse]["PlayerBanned"], "{RAS_Player}", playertoban:Nick())
+		msg = string.gsub(msg, "{RAS_Type}", type)
+		RAS.NotifySystem(ply, "ban", msg)
 	end
 end)

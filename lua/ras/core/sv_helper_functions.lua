@@ -35,15 +35,6 @@ RAS.ValidPly = function(ply)
  end
 end
 
---[[Table Func]]--
-RAS.tableValueToKey = function(_table, value)
- for k, v in pairs( _table ) do
-   if v == value then
-     return k
-   end
- end
-end
-
 --[[Access Func.]]--
 RAS.HasPerms = function(ply)
  if !IsValid(ply) then return false end

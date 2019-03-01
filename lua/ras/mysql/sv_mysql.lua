@@ -5,7 +5,8 @@ RAS.ConnectToDatabase = function()
     "SendNotification",
     "NotifyButtonCallback",
     "BanUser",
-    "UnBanUser"
+    "UnBanUser",
+    "OpenMenu"
   }
   for k, v in pairs(allthenetworkstrings) do
     util.AddNetworkString("RAS" .. v)
@@ -47,7 +48,7 @@ hook.Add("RASConnectedToDatabase", "RASConnectedToDatabaseCreateTable", function
     `asid` varchar(17) NOT NULL,
     `reason` varchar(255) NOT NULL,
     `type` text(255) NOT NULL, 
-    `expire_time` bigint NOT NULL 
+    `expire_time` bigint 
   ) ENGINE=MyISAM DEFAULT CHARSET=utf8; 
   
   CREATE TABLE `bannedplayers` (
@@ -56,7 +57,7 @@ hook.Add("RASConnectedToDatabase", "RASConnectedToDatabaseCreateTable", function
     `asid` varchar(17) NOT NULL,
     `reason` varchar(255) NOT NULL,
     `type` text(255) NOT NULL, 
-    `expire_time` bigint NOT NULL
+    `expire_time` bigint
   ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
   ALTER TABLE `exemptplayers`
