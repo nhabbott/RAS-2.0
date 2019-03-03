@@ -1,6 +1,8 @@
 if (SERVER) then
   RAS = {}
 
+  RAS.MySQLInfo = {}
+
   RAS.Config = {}
 
   RAS.ExemptPlayers = {}

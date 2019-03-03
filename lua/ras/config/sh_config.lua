@@ -56,4 +56,5 @@ if (CLIENT) then
 	config.PrimaryColor = Color(0,134,179,255) -- Primary color
 	config.LightColor = Color(86,182,229,255) -- Light color
 	config.DarkColor = Color(0,89,131,255) -- Dark color
+	config.CircleRippleColor = Color(220, 220, 220, 50) -- Color of the ripple after clicking a circle button
 end

@@ -6,15 +6,17 @@ RAS.ConnectToDatabase = function()
     "NotifyButtonCallback",
     "BanUser",
     "UnBanUser",
-    "OpenMenu"
+    "ExemptUser",
+    "UnExemptUser",
+    "OpenMainMenu"
   }
   for k, v in pairs(allthenetworkstrings) do
     util.AddNetworkString("RAS" .. v)
   end
 
-  if RAS.Config.SavingMethod == "mysqloo" then
+  if RAS.MySQLInfo.SavingMethod == "mysqloo" then
     if tobool(pcall(require, "mysqloo")) then
-      RAS.MySQL = mysqloo.connect(RAS.Config.MySQL.Host, RAS.Config.MySQL.User, RAS.Config.MySQL.Pass, RAS.Config.MySQL.Database, RAS.Config.MySQL.Port)
+      RAS.MySQL = mysqloo.connect(RAS.MySQLInfo.Host, RAS.MySQLInfo.User, RAS.MySQLInfo.Pass, RAS.MySQLInfo.Database, RAS.MySQLInfo.Port)
       function RAS.MySQL:onConnected()
         hook.Call("RASConnectedToDatabase")
       end
@@ -23,10 +25,10 @@ RAS.ConnectToDatabase = function()
       end
       RAS.MySQL:connect()
     end
-  elseif RAS.Config.SavingMethod == "tmysql4" then
+  elseif RAS.MySQLInfo.SavingMethod == "tmysql4" then
     if pcall(require, "tmysql4") then
       require("tmysql4")
-      RAS.MySQL, RAS.MySQLError = tmysql.initialize(RAS.Config.MySQL.Host, RAS.Config.MySQL.Username, RAS.Config.MySQL.Password, RAS.Config.MySQL.Database, RAS.Config.MySQL.Port, nil, CLIENT_MULTI_STATEMENTS)
+      RAS.MySQL, RAS.MySQLError = tmysql.initialize(RAS.MySQLInfo.Host, RAS.MySQLInfo.Username, RAS.MySQLInfo.Password, RAS.MySQLInfo.Database, RAS.MySQLInfo.Port, nil, CLIENT_MULTI_STATEMENTS)
       if tostring(type(RAS.MySQL)) == "boolean" then
         hook.Call("RASConnectedToDatabaseError", nil, RAS.MySQLError)
       else
