@@ -42,36 +42,40 @@ hook.Add("RASConnectedToDatabaseError", "RASConnectedToDatabaseErrorRedo", funct
 end)
 
 hook.Add("RASConnectedToDatabase", "RASConnectedToDatabaseCreateTable", function() 
-  RAS.MySQLToCreate = [[CREATE TABLE `exemptplayers` ( 
-    `id` int(11) NOT NULL,
-    `bsid` varchar(17) NOT NULL, 
-    `asid` varchar(17) NOT NULL,
-    `reason` varchar(255) NOT NULL,
-    `type` text(255) NOT NULL, 
-    `expire_time` bigint 
-  ) ENGINE=MyISAM DEFAULT CHARSET=utf8; 
-  
-  CREATE TABLE `bannedplayers` (
-    `id` int(11) NOT NULL,
-    `bsid` varchar(17) NOT NULL, 
-    `asid` varchar(17) NOT NULL,
-    `reason` varchar(255) NOT NULL,
-    `type` text(255) NOT NULL, 
-    `expire_time` bigint
-  ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  if RAS.Config.FirstRun then  
+    RAS.MySQLToCreate = [[CREATE TABLE `exemptplayers` ( 
+        `id` int(11) NOT NULL,
+        `bsid` varchar(17) NOT NULL, 
+        `asid` varchar(17) NOT NULL,
+        `reason` varchar(255) NOT NULL,
+        `type` text(255) NOT NULL, 
+        `expire_time` bigint 
+      ) ENGINE=MyISAM DEFAULT CHARSET=utf8; 
+      
+      CREATE TABLE `bannedplayers` (
+        `id` int(11) NOT NULL,
+        `bsid` varchar(17) NOT NULL, 
+        `asid` varchar(17) NOT NULL,
+        `reason` varchar(255) NOT NULL,
+        `type` text(255) NOT NULL, 
+        `expire_time` bigint
+      ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-  ALTER TABLE `exemptplayers`
-    ADD PRIMARY KEY (`id`);
+      ALTER TABLE `exemptplayers`
+        ADD PRIMARY KEY (`id`);
 
-  ALTER TABLE `bannedplayers`
-    ADD PRIMARY KEY (`id`);
+      ALTER TABLE `bannedplayers`
+        ADD PRIMARY KEY (`id`);
 
-  ALTER TABLE `exemptplayers`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+      ALTER TABLE `exemptplayers`
+        MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
-  ALTER TABLE `bannedplayers`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;COMMIT;
-  ]]
-  RAS.QueryDatabase(RAS.MySQLToCreate, function(worked, result, lid) end)
+      ALTER TABLE `bannedplayers`
+        MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;COMMIT;
+      ]]
+    RAS.QueryDatabase(RAS.MySQLToCreate, function(worked, result, lid) end)
+    RAS.Config.FirstRun = false
+    RAS.SaveConfig()
+  end
   MsgC(Color(0,255,0), "RAS Connected to MySQL!\n")
 end)

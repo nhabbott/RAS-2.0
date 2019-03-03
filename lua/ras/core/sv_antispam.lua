@@ -89,9 +89,9 @@ end)
 
 function meta:CanChat()
   if !config.AntiSpamming then
-    return true
+    return "exempt"
 	elseif !config.Chat.Enabled then
-		return true
+		return "exempt"
 	elseif self.ChatCooldown >= os.time() then
 		return false
 	elseif self.ChatCooldown < os.time() then
@@ -108,9 +108,9 @@ end
 
 function meta:CanPropSpawn()
   if !config.AntiSpamming then
-    return true
+    return "exempt"
 	elseif !config.Prop.Enabled then
-		return true
+		return "exempt"
   elseif self.PropCooldown >= os.time() then
 		return false
 	elseif self.PropCooldown < os.time() then
@@ -127,9 +127,9 @@ end
 
 function meta:CanSentSpawn()
   if !config.AntiSpamming then
-    return true
+    return "exempt"
 	elseif !config.Sent.Enabled then
-		return true
+		return "exempt"
   elseif self.SentCooldown >= os.time() then
 		return false
 	elseif self.SentCooldown < os.time() then
@@ -146,9 +146,9 @@ end
 
 function meta:CanRagdollSpawn()
   if !config.AntiSpamming then
-    return true
+    return "exempt"
 	elseif !config.Ragdoll.Enabled then
-		return true
+		return "exempt"
   elseif self.RagdollCooldown >= os.time() then
 		return false
 	elseif self.RagdollCooldown < os.time() then
@@ -165,9 +165,9 @@ end
 
 function meta:CanVehicleSpawn()
   if !config.AntiSpamming then
-    return true
+    return "exempt"
 	elseif !config.Vehicle.Enabled then
-		return true
+		return "exempt"
   elseif self.VehicleCooldown >= os.time() then
 		return false
 	elseif self.VehicleCooldown < os.time() then
@@ -184,9 +184,9 @@ end
 
 function meta:CanNpcSpawn()
   if !config.AntiSpamming then
-    return true
+    return "exempt"
 	elseif !config.Npc.Enabled then
-		return true
+		return "exempt"
   elseif self.NpcCooldown >= os.time() then
 		return false
 	elseif self.NpcCooldown < os.time() then
@@ -203,9 +203,9 @@ end
 
 function meta:CanEffectSpawn()
   if !config.AntiSpamming then
-    return true
+    return "exempt"
 	elseif !config.Effect.Enabled then
-		return true
+		return "exempt"
   elseif self.EffectCooldown >= os.time() then
 		return false
 	elseif self.EffectCooldown < os.time() then

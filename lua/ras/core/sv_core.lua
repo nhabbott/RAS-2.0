@@ -1,7 +1,3 @@
-function RAS.UpdateConfig()
-	file.Write( "ras_data/ras_config.txt", util.TableToJSON( RAS.Config ) )
-end
-
 local plymeta = FindMetaTable("Player")
 
 RAS.EscapeString = function(string)
@@ -75,6 +71,11 @@ RAS.NotifySystem = function(tosend, type, message, callback)
 			callback(clicked)
 		end)
 	end
+end
+
+RAS.SaveConfig = function()
+	file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+	RAS.Config = util.JSONToTable(file.Read("ras/config.txt", "DATA"))
 end
 
 RAS.GetBannedPlayers = function()

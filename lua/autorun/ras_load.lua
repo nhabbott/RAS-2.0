@@ -23,13 +23,6 @@ if (SERVER) then
   local files, folders = file.Find(fol .. "*", "LUA")
   local filesnumber = 0
 
-  if !file.Exists("ras_data/ras_config.txt", "DATA") then
-    file.Write("ras_data/ras_config.txt", util.TableToJSON(RAS.Config))
-  else 
-    local data = file.Read("ras_data/ras_config.txt")
-    RAS.Config = util.JSONToTable(data)
-  end
-
   for k, v in pairs(files) do
     if string.GetExtensionFromFilename(v) == "lua" then
       include(fol .. v)
@@ -73,6 +66,17 @@ if (SERVER) then
       end
       MsgC(Color(255,255,255,255), "// " .. stringtoinput .. stringtoinputafter, Color(255,255,255,255), "//\n")
     end
+  end
+
+  if !file.Exists("ras", "DATA") then
+    file.CreateDir("ras")
+  end
+
+  if !file.Exists("ras/config.txt", "DATA") then
+    file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+  else
+    local data = file.Read("ras/config.txt", "DATA")
+    RAS.Config = util.JSONToTable(data)
   end
 
   MsgC(Color(255,255,255,255), "/////////////////////////////////////////////////\n")

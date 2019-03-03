@@ -4,6 +4,8 @@
 
 local config = RAS.Config
 
+config.FirstRun = true -- Do not touch
+
 config.LanguageToUse = "English" -- Supports 'English'
 
 if (SERVER) then
