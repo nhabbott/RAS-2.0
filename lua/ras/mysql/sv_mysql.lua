@@ -46,7 +46,7 @@ end)
 
 hook.Add("RASConnectedToDatabase", "RASConnectedToDatabaseCreateTable", function() 
   if RAS.Config.FirstRun then  
-    RAS.MySQLToCreate = [[CREATE TABLE `exemptplayers` ( 
+    RAS.MySQLToCreate = [[CREATE TABLE IF NOT EXISTS `exemptplayers` ( 
         `id` int NOT NULL AUTO_INCREMENT,
         `bsid` varchar(17) NOT NULL, 
         `asid` varchar(17) NOT NULL,
@@ -56,7 +56,7 @@ hook.Add("RASConnectedToDatabase", "RASConnectedToDatabaseCreateTable", function
         PRIMARY KEY (`id`) 
       ) ENGINE=MyISAM CHARSET=utf8 COLLATE utf8_general_ci; 
       
-      CREATE TABLE `bannedplayers` (
+      CREATE TABLE IF NOT EXISTS `bannedplayers` (
         `id` int NOT NULL AUTO_INCREMENT,
         `bsid` varchar(17) NOT NULL, 
         `asid` varchar(17) NOT NULL,

@@ -30,3 +30,7 @@ langconfig["English"]["Disabled"] = "The following RAS System has been disabled:
 langconfig["English"]["NotValidPly"] = "The provided username does not belong to a valid player"
 langconfig["English"]["NoType"] = "Please provide a valid type"
 langconfig["English"]["NoReason"] = "Please provide a valid reason"
+langconfig["English"]["NotBanned"] = "The player provided is not banned from {RAS_Type}s"
+langconfig["English"]["AlreadyBanned"] = "The player provided is already banned from {RAS_Type}s"
+langconfig["English"]["NotExempted"] = "The player provided is not exempted from {RAS_Type}s"
+langconfig["English"]["AlreadyExempted"] = "The player provided is already exempted from {RAS_Type}s"

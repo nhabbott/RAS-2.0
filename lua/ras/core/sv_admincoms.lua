@@ -168,7 +168,61 @@ functionsTable["ban"] = function(ply, args)
 	else
 		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
 	end
+end
 
+functionsTable["unban"] = function(ply, args)
+	local ptub = RAS.GetByNick(args[1])
+	if RAS.HasPerms(ply) then
+		if IsValid(ptub) then
+			if args[2] != nil then
+				RAS.UnBanUser(ply, ptub, args[2])
+			else
+				RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoType"])
+			end
+		else
+			RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NotValidPly"])
+		end
+	else
+		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+	end
+end
+
+functionsTable["exempt"] = function(ply, args)
+	local pte = RAS.GetByNick(args[1])
+	if RAS.HasPerms(ply) then
+		if IsValid(pte) then
+			if args[2] != nil then
+				if args[3] != nil then
+					RAS.ExemptUser(ply, pte, args[3], args[2], nil)
+				else
+					RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoReason"])
+				end
+			else
+				RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoType"])
+			end
+		else
+			RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NotValidPly"])
+		end
+	else
+		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+	end
+end
+
+functionsTable["unexempt"] = function(ply, args)
+	local ptue = RAS.GetByNick(args[1])
+	if RAS.HasPerms(ply) then
+		if IsValid(ptue) then
+			if args[2] != nil then
+				RAS.UnExemptUser(ply, ptue, args[2])
+			else
+				RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoType"])
+			end
+		else
+			RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NotValidPly"])
+		end
+	else
+		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+	end
 end
 
 functionsTable["menu"] = function(ply, args)
