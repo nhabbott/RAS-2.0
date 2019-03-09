@@ -92,15 +92,15 @@ function meta:CanChat()
     return "exempt"
 	elseif !config.Chat.Enabled then
 		return "exempt"
+	elseif self:RASIsExempt("chat") then
+    return "exempt"
+	elseif self:RASIsBanned("chat") then
+		RAS.NotifySystem(self, "info", config.Language[config.LanguageToUse]["ChatBannedResp"])
+    return "banned"
 	elseif self.ChatCooldown >= os.time() then
 		return false
 	elseif self.ChatCooldown < os.time() then
 		return true 
-  elseif self:RASIsExempt("chat") then
-    return "exempt"
-	elseif self:RASIsBanned("chat") then
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["ChatBannedResp"])
-    return "banned"
   else
     return true
   end
@@ -111,15 +111,15 @@ function meta:CanPropSpawn()
     return "exempt"
 	elseif !config.Prop.Enabled then
 		return "exempt"
+	elseif self:RASIsExempt("prop") then
+    return "exempt"
+	elseif self:RASIsBanned("prop") then
+		RAS.NotifySystem(self, "info", config.Language[config.LanguageToUse]["PropBannedResp"])
+    return "banned"
   elseif self.PropCooldown >= os.time() then
 		return false
 	elseif self.PropCooldown < os.time() then
 		return true
-  elseif self:RASIsExempt("prop") then
-    return "exempt"
-	elseif self:RASIsBanned("prop") then
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["PropBannedResp"])
-    return "banned"
   else
     return true
   end
@@ -130,15 +130,15 @@ function meta:CanSentSpawn()
     return "exempt"
 	elseif !config.Sent.Enabled then
 		return "exempt"
+	elseif self:RASIsExempt("sent") then
+    return "exempt"
+	elseif self:RASIsBanned("sent") then
+		RAS.NotifySystem(self, "info", config.Language[config.LanguageToUse]["SentBannedResp"])
+    return "banned"
   elseif self.SentCooldown >= os.time() then
 		return false
 	elseif self.SentCooldown < os.time() then
 		return true
-  elseif self:RASIsExempt("sent") then
-    return "exempt"
-	elseif self:RASIsBanned("sent") then
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["SentBannedResp"])
-    return "banned"
   else
     return true
   end
@@ -149,15 +149,15 @@ function meta:CanRagdollSpawn()
     return "exempt"
 	elseif !config.Ragdoll.Enabled then
 		return "exempt"
+	elseif self:RASIsExempt("ragdoll") then
+    return "exempt"
+	elseif self:RASIsBanned("ragdoll") then
+		RAS.NotifySystem(self, "info", config.Language[config.LanguageToUse]["RagdollBannedResp"])
+    return "banned"
   elseif self.RagdollCooldown >= os.time() then
 		return false
 	elseif self.RagdollCooldown < os.time() then
 		return true
-  elseif self:RASIsExempt("ragdoll") then
-    return "exempt"
-	elseif self:RASIsBanned("ragdoll") then
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["RagdollBannedResp"])
-    return "banned"
   else
     return true
   end
@@ -168,15 +168,15 @@ function meta:CanVehicleSpawn()
     return "exempt"
 	elseif !config.Vehicle.Enabled then
 		return "exempt"
+	elseif self:RASIsExempt("vehicle") then
+    return "exempt"
+	elseif self:RASIsBanned("vehicle") then
+		RAS.NotifySystem(self, "info", config.Language[config.LanguageToUse]["VehicleBannedResp"])
+    return "banned"
   elseif self.VehicleCooldown >= os.time() then
 		return false
 	elseif self.VehicleCooldown < os.time() then
 		return true
-  elseif self:RASIsExempt("vehicle") then
-    return "exempt"
-	elseif self:RASIsBanned("vehicle") then
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["VehicleBannedResp"])
-    return "banned"
   else
     return true
   end
@@ -187,15 +187,15 @@ function meta:CanNpcSpawn()
     return "exempt"
 	elseif !config.Npc.Enabled then
 		return "exempt"
+	elseif self:RASIsExempt("npc") then
+    return "exempt"
+	elseif self:RASIsBanned("npc") then
+		RAS.NotifySystem(self, "info", config.Language[config.LanguageToUse]["NpcBannedResp"])
+    return "banned"
   elseif self.NpcCooldown >= os.time() then
 		return false
 	elseif self.NpcCooldown < os.time() then
 		return true
-  elseif self:RASIsExempt("npc") then
-    return "exempt"
-	elseif self:RASIsBanned("npc") then
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NpcBannedResp"])
-    return "banned"
   else
     return true
   end
@@ -206,15 +206,15 @@ function meta:CanEffectSpawn()
     return "exempt"
 	elseif !config.Effect.Enabled then
 		return "exempt"
+	elseif self:RASIsExempt("effect") then
+    return "exempt"
+	elseif self:RASIsBanned("effect") then
+		RAS.NotifySystem(self, "info", config.Language[config.LanguageToUse]["EffectBannedResp"])
+    return "banned"
   elseif self.EffectCooldown >= os.time() then
 		return false
 	elseif self.EffectCooldown < os.time() then
 		return true
-  elseif self:RASIsExempt("effect") then
-    return "exempt"
-	elseif self:RASIsBanned("effect") then
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["EffectBannedResp"])
-    return "banned"
   else
     return true
   end

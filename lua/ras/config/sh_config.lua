@@ -47,7 +47,7 @@ if (SERVER) then
 	--	Syntax: ['usergroupname'] = true OR False
 	-----------------------------------------------------------------------------
 
-	config.UserGroups = {['owner']	= true, ['superadmin'] = true, ['admin'] = true, ['moderator'] = true} -- The ranks that can open the RAS config menu
+	config.UserGroups = {['owner']	= true, ['superadmin'] = true, ['admin'] = true, ['moderator'] = true} -- The ranks that can open the RAS config menu and use chat commands
 end
 
 if (CLIENT) then

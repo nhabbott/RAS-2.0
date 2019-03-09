@@ -134,12 +134,12 @@ end
 functionsTable["npc"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
-			config.Npc.Enabled = CheckBooleanFunc( text[3] )
+			config.Npc.Enabled = true
 			RAS.SaveConfig()
 			local msg = string.gsub(config.Language[config.LanguageToUse]["Enabled"], "{RAS_System}", "NPCs")
 			RAS.NotifySystem(ply, "info", msg)
 		elseif args[1] == "off" then
-			config.Npc.Enabled = CheckBooleanFunc( text[3] )
+			config.Npc.Enabled = false
 			RAS.SaveConfig()
 			local msg = string.gsub(config.Language[config.LanguageToUse]["Disabled"], "{RAS_System}", "NPCs")
 			RAS.NotifySystem(ply, "info", msg)
@@ -147,6 +147,28 @@ functionsTable["npc"] = function(ply, args)
 	else
 		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
 	end
+end
+
+functionsTable["ban"] = function(ply, args)
+	local ptb = RAS.GetByNick(args[1])
+	if RAS.HasPerms(ply) then
+		if IsValid(ptb) then
+			if args[2] != nil then
+				if args[3] != nil then
+					RAS.BanUser(ply, ptb, args[3], args[2], nil)
+				else
+					RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoReason"])
+				end
+			else
+				RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoType"])
+			end
+		else
+			RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NotValidPly"])
+		end
+	else
+		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+	end
+
 end
 
 functionsTable["menu"] = function(ply, args)

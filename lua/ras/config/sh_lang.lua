@@ -27,3 +27,6 @@ langconfig["English"]["PlayerUnExempted"] = "{RAS_Player} was successfully unexe
 langconfig["English"]["NoPerms"] = "You do not have permission to perform this action"
 langconfig["English"]["Enabled"] = "The following RAS System has been enabled: {RAS_System}"
 langconfig["English"]["Disabled"] = "The following RAS System has been disabled: {RAS_System}"
+langconfig["English"]["NotValidPly"] = "The provided username does not belong to a valid player"
+langconfig["English"]["NoType"] = "Please provide a valid type"
+langconfig["English"]["NoReason"] = "Please provide a valid reason"

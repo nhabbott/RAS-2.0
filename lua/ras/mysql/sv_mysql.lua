@@ -23,6 +23,7 @@ RAS.ConnectToDatabase = function()
       function RAS.MySQL:onConnectionFailed(err)
         hook.Call("RASConnectedToDatabaseError", nil, err)
       end
+      RAS.MySQL:setMultiStatements(true)
       RAS.MySQL:connect()
     end
   elseif RAS.MySQLInfo.SavingMethod == "tmysql4" then
@@ -46,34 +47,24 @@ end)
 hook.Add("RASConnectedToDatabase", "RASConnectedToDatabaseCreateTable", function() 
   if RAS.Config.FirstRun then  
     RAS.MySQLToCreate = [[CREATE TABLE `exemptplayers` ( 
-        `id` int(11) NOT NULL,
+        `id` int NOT NULL AUTO_INCREMENT,
         `bsid` varchar(17) NOT NULL, 
         `asid` varchar(17) NOT NULL,
         `reason` varchar(255) NOT NULL,
-        `type` text(255) NOT NULL, 
-        `expire_time` bigint 
-      ) ENGINE=MyISAM DEFAULT CHARSET=utf8; 
+        `type` text(7) NOT NULL, 
+        `expire_time` timestamp,
+        PRIMARY KEY (`id`) 
+      ) ENGINE=MyISAM CHARSET=utf8 COLLATE utf8_general_ci; 
       
       CREATE TABLE `bannedplayers` (
-        `id` int(11) NOT NULL,
+        `id` int NOT NULL AUTO_INCREMENT,
         `bsid` varchar(17) NOT NULL, 
         `asid` varchar(17) NOT NULL,
         `reason` varchar(255) NOT NULL,
-        `type` text(255) NOT NULL, 
-        `expire_time` bigint
-      ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-      ALTER TABLE `exemptplayers`
-        ADD PRIMARY KEY (`id`);
-
-      ALTER TABLE `bannedplayers`
-        ADD PRIMARY KEY (`id`);
-
-      ALTER TABLE `exemptplayers`
-        MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-      ALTER TABLE `bannedplayers`
-        MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;COMMIT;
+        `type` text(7) NOT NULL, 
+        `expire_time` timestamp,
+        PRIMARY KEY (`id`) 
+      ) ENGINE=MyISAM CHARSET=utf8 COLLATE utf8_general_ci;
       ]]
     RAS.QueryDatabase(RAS.MySQLToCreate, function(worked, result, lid) end)
     RAS.Config.FirstRun = false

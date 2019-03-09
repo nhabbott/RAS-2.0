@@ -1,4 +1,4 @@
-net.Receive("RASOpenMainMenu", function()
+net.Receive("RASOpenMainMenu", function(len, ply)
   local config = net.ReadTable()
   
   local DFrame = vgui.Create("DFrame")
