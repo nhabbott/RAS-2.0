@@ -74,12 +74,19 @@ if (SERVER) then
     file.CreateDir("ras")
   end
 
+  if !file.Exists("ras/logs.txt", "DATA") then
+    file.Write("ras/logs.txt", "{}")
+  end
+
   if !file.Exists("ras/config.txt", "DATA") then
     file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
   else
     local data = file.Read("ras/config.txt", "DATA")
     RAS.Config = util.JSONToTable(data)
   end
+
+  resource.AddFile("materials/ras/settings.png")
+  resource.AddFile("materials/ras/bans.png")
 
   MsgC(Color(0,255,0,255), "/////////////////////////////////////////////////\n")
   MsgC(Color(0,255,0,255), "//                  RAS Loaded!                //\n")

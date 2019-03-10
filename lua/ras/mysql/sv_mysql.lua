@@ -31,9 +31,9 @@ RAS.ConnectToDatabase = function()
       require("tmysql4")
       RAS.MySQL, RAS.MySQLError = tmysql.initialize(RAS.MySQLInfo.Host, RAS.MySQLInfo.Username, RAS.MySQLInfo.Password, RAS.MySQLInfo.Database, RAS.MySQLInfo.Port, nil, CLIENT_MULTI_STATEMENTS)
       if tostring(type(RAS.MySQL)) == "boolean" then
-        hook.Call("RASConnectedToDatabaseError", nil, RAS.MySQLError)
+        hook.Run("RASConnectedToDatabaseError", RAS.MySQLError)
       else
-        hook.Call("RASConnectedToDatabase")
+        hook.Run("RASConnectedToDatabase")
       end
     end
   end

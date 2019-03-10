@@ -74,12 +74,17 @@ RAS.NotifySystem = function(tosend, type, message, callback)
 	end
 end
 
-RAS.SaveConfig = function()
-	file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+RAS.Log = function(kind, event, actor, actorID, acted, actedID)
+	local logs = util.JSONToTable(file.Read("ras/logs.txt", "DATA"))
+	local time = os.date("%H:%M:%S - %d/%m/%Y", os.time())
+
+	table.insert(logs, {kind = RAS.FirstToUpper(kind), time = time, event = event, admin = actor, adminSteam64 = actorID, ply = acted, playerSteam64 = actedID})
+	file.Write("ras/logs.txt", util.TableToJSON(logs))
+	hook.Run("RASLogged", {kind = RAS.FirstToUpper(kind), time = time, event = event, admin = actor, adminSteam64 = actorID, ply = acted, playerSteam64 = actedID})
 end
 
 RAS.GetBannedPlayers = function()
-    return RAS.BannedEmployees
+    return RAS.BannedPlayers
 end
 
 function plymeta:RASIsBanned(kind)
@@ -203,10 +208,16 @@ RAS.BanUser = function(ply, playertoban, banreason, kind, expiretime)
 	if RAS.HasPerms(ply) then
 		table.insert(RAS.BannedPlayers, {bsid = playertoban:SteamID64(), asid = ply:SteamID64(), reason = banreason, kind = kind, expiretime = expiretime})
 		RAS.QueryDatabase("INSERT INTO `bannedplayers` (bsid, asid, reason, type) VALUES ('"..playertoban:SteamID64().."', '"..ply:SteamID64().."', '"..RAS.EscapeString(banreason).."', '"..RAS.EscapeString(kind).."')", function() end)
+		
+		local msg1 = string.gsub(config.Language[config.LanguageToUse]["BanLog"], "{RAS_Admin}", ply:Nick())
+		msg1 = string.gsub(msg1, "{RAS_Banned}", playertoban:Nick())
+		msg1 = string.gsub(msg1, "{RAS_Type}", kind)
+		msg1 = string.gsub(msg1, "{RAS_Reason}", banreason)
+		RAS.Log(kind, msg1, ply:Nick(), ply:SteamID64(), playertoban:Nick(), playertoban:SteamID64())
 
-		local msg = string.gsub(config.Language[config.LanguageToUse]["PlayerBanned"], "{RAS_Player}", playertoban:Nick())
-		msg = string.gsub(msg, "{RAS_Type}", kind)
-		RAS.NotifySystem(ply, "ban", msg)
+		local msg2 = string.gsub(config.Language[config.LanguageToUse]["PlayerBanned"], "{RAS_Player}", playertoban:Nick())
+		msg2 = string.gsub(msg2, "{RAS_Type}", kind)
+		RAS.NotifySystem(ply, "ban", msg2)
 	end
 end
 net.Receive("RASBanUser", function(len, ply)

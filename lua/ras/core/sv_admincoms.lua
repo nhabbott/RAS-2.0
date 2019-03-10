@@ -1,151 +1,149 @@
-local config = RAS.Config
-
 local functionsTable = {}
 functionsTable["enable"] = function(ply)
 	if RAS.HasPerms(ply) then
-		config.AntiSpamming = true
-		RAS.SaveConfig()
-		local msg = string.gsub(config.Language[config.LanguageToUse]["Enabled"], "{RAS_System}", "RAS")
+		RAS.Config.AntiSpamming = true
+		file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+		local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Enabled"], "{RAS_System}", "RAS")
 		RAS.NotifySystem(ply, "info", msg)
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 
 functionsTable["disable"] = function(ply)
 	if RAS.HasPerms(ply) then
-		config.AntiSpamming = false
-		RAS.SaveConfig()
-		local msg = string.gsub(config.Language[config.LanguageToUse]["Disabled"], "{RAS_System}", "RAS")
+		RAS.Config.AntiSpamming = false
+		file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+		local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Disabled"], "{RAS_System}", "RAS")
 		RAS.NotifySystem(ply, "info", msg)
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 
 functionsTable["chat"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
-			config.Chat.Enabled = true
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Enabled"], "{RAS_System}", "Chat")
+			RAS.Config.Chat.Enabled = true
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Enabled"], "{RAS_System}", "Chat")
 			RAS.NotifySystem(ply, "info", msg)
 		elseif args[1] == "off" then
-			config.Chat.Enabled = false
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Disabled"], "{RAS_System}", "Chat")
+			RAS.Config.Chat.Enabled = false
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Disabled"], "{RAS_System}", "Chat")
 			RAS.NotifySystem(ply, "info", msg)
 		end
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 
 functionsTable["props"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
-			config.Prop.Enabled = true
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Enabled"], "{RAS_System}", "Props")
+			RAS.Config.Prop.Enabled = true
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Enabled"], "{RAS_System}", "Props")
 			RAS.NotifySystem(ply, "info", msg)
 		elseif args[1] == "off" then
-			config.Prop.Enabled = false
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Disabled"], "{RAS_System}", "Props")
+			RAS.Config.Prop.Enabled = false
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Disabled"], "{RAS_System}", "Props")
 			RAS.NotifySystem(ply, "info", msg)
 		end
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 
 functionsTable["sents"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
-			config.Sent.Enabled = true
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Enabled"], "{RAS_System}", "SENTs")
+			RAS.Config.Sent.Enabled = true
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Enabled"], "{RAS_System}", "SENTs")
 			RAS.NotifySystem(ply, "info", msg)
 		elseif args[1] == "off" then
-			config.Sent.Enabled = false
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Disabled"], "{RAS_System}", "SENTs")
+			RAS.Config.Sent.Enabled = false
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Disabled"], "{RAS_System}", "SENTs")
 			RAS.NotifySystem(ply, "info", msg)
 		end
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 
 functionsTable["effects"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
-			config.Effect.Enabled = true
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Enabled"], "{RAS_System}", "Effects")
+			RAS.Config.Effect.Enabled = true
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Enabled"], "{RAS_System}", "Effects")
 			RAS.NotifySystem(ply, "info", msg)
 		elseif args[1] == "off" then
-			config.Effect.Enabled = false
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Disabled"], "{RAS_System}", "Effects")
+			RAS.Config.Effect.Enabled = false
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Disabled"], "{RAS_System}", "Effects")
 			RAS.NotifySystem(ply, "info", msg)
 		end
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 
 functionsTable["ragdolls"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
-			config.Ragdoll.Enabled = true
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Enabled"], "{RAS_System}", "Ragdolls")
+			RAS.Config.Ragdoll.Enabled = true
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Enabled"], "{RAS_System}", "Ragdolls")
 			RAS.NotifySystem(ply, "info", msg)
 		elseif args[1] == "off" then
-			config.Ragdoll.Enabled = false
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Disabled"], "{RAS_System}", "Ragdolls")
+			RAS.Config.Ragdoll.Enabled = false
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Disabled"], "{RAS_System}", "Ragdolls")
 			RAS.NotifySystem(ply, "info", msg)
 		end
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 
 functionsTable["vehicles"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
-			config.Vehicle.Enabled = true
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Enabled"], "{RAS_System}", "Vehicles")
+			RAS.Config.Vehicle.Enabled = true
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Enabled"], "{RAS_System}", "Vehicles")
 			RAS.NotifySystem(ply, "info", msg)
 		elseif args[1] == "off" then
-			config.Vehicle.Enabled = false
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Disabled"], "{RAS_System}", "Vehicles")
+			RAS.Config.Vehicle.Enabled = false
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Disabled"], "{RAS_System}", "Vehicles")
 			RAS.NotifySystem(ply, "info", msg)
 		end
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 
 functionsTable["npc"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
-			config.Npc.Enabled = true
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Enabled"], "{RAS_System}", "NPCs")
+			RAS.Config.Npc.Enabled = true
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Enabled"], "{RAS_System}", "NPCs")
 			RAS.NotifySystem(ply, "info", msg)
 		elseif args[1] == "off" then
-			config.Npc.Enabled = false
-			RAS.SaveConfig()
-			local msg = string.gsub(config.Language[config.LanguageToUse]["Disabled"], "{RAS_System}", "NPCs")
+			RAS.Config.Npc.Enabled = false
+			file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
+			local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["Disabled"], "{RAS_System}", "NPCs")
 			RAS.NotifySystem(ply, "info", msg)
 		end
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 
@@ -157,16 +155,16 @@ functionsTable["ban"] = function(ply, args)
 				if args[3] != nil then
 					RAS.BanUser(ply, ptb, args[3], args[2], nil)
 				else
-					RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoReason"])
+					RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoReason"])
 				end
 			else
-				RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoType"])
+				RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoType"])
 			end
 		else
-			RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NotValidPly"])
+			RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NotValidPly"])
 		end
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 
@@ -177,13 +175,13 @@ functionsTable["unban"] = function(ply, args)
 			if args[2] != nil then
 				RAS.UnBanUser(ply, ptub, args[2])
 			else
-				RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoType"])
+				RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoType"])
 			end
 		else
-			RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NotValidPly"])
+			RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NotValidPly"])
 		end
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 
@@ -195,16 +193,16 @@ functionsTable["exempt"] = function(ply, args)
 				if args[3] != nil then
 					RAS.ExemptUser(ply, pte, args[3], args[2], nil)
 				else
-					RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoReason"])
+					RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoReason"])
 				end
 			else
-				RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoType"])
+				RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoType"])
 			end
 		else
-			RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NotValidPly"])
+			RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NotValidPly"])
 		end
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 
@@ -215,23 +213,24 @@ functionsTable["unexempt"] = function(ply, args)
 			if args[2] != nil then
 				RAS.UnExemptUser(ply, ptue, args[2])
 			else
-				RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoType"])
+				RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoType"])
 			end
 		else
-			RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NotValidPly"])
+			RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NotValidPly"])
 		end
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 
 functionsTable["menu"] = function(ply, args)
 	if RAS.HasPerms(ply) then
+		local logs = util.JSONToTable(file.Read("ras/logs.txt", "DATA"))
 		net.Start("RASOpenMainMenu")
-			net.WriteTable(config)
+			net.WriteTable(logs)
 		net.Send(ply)
 	else
-		RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoPerms"])
+		RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoPerms"])
 	end
 end
 

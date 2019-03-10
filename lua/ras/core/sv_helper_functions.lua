@@ -13,7 +13,7 @@ RAS.HasPerms = function(ply)
 end
 
 RAS.IsValidKind = function(kind)
-  local tbl = {'chat', 'prop', 'sent', 'ragdoll', 'vehicle', 'npc', 'effect', 'all'}
+  local tbl = RAS.Config.Language[RAS.Config.LanguageToUse]["Kinds"]
   for k, v in pairs(tbl) do 
 		if v == kind then
 			return true
@@ -22,4 +22,8 @@ RAS.IsValidKind = function(kind)
 			return false
 		end
 	end
+end
+
+RAS.FirstToUpper = function(str)
+	return (str:gsub("^%l", string.upper))
 end
