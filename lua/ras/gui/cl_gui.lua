@@ -1,3 +1,13 @@
+local function RASOpenBansMenu()
+  net.Start("RASOpenBansMenu")
+  net.SendToServer()
+end
+
+local function RASOpenSettingsMenu()
+  net.Start("RASOpenSettingsMenu")
+  net.SendToServer()
+end
+
 net.Receive("RASOpenMainMenu", function(len, ply)
   local config = RAS.Config
   local events = net.ReadTable()
@@ -54,8 +64,8 @@ net.Receive("RASOpenMainMenu", function(len, ply)
     show2ripple = true
     timer.Simple(.3, function() 
       show2ripple = false
-      -- DFrame:Close()
-      -- RASOpenSettingsMenu
+      RASOpenSettingsMenu()
+      DFrame:Close()
     end)
   end
 
@@ -68,26 +78,76 @@ net.Receive("RASOpenMainMenu", function(len, ply)
     show1ripple = true
     timer.Simple(.3, function() 
       show1ripple = false
+      RASOpenBansMenu()
+      DFrame:Close()
     end)
   end
 
   local EventList = vgui.Create("DListView", DFrame)
-  EventList:DockMargin(5, 25, 5, 65)
+  EventList:DockMargin(-6, 3, -6, 65)
   EventList:Dock(FILL)
   EventList:SetMultiSelect(false)
+  EventList:SetPaintBackground(false)
   EventList:SetSortable(false)
+  EventList:SetHeaderHeight(30)
+  EventList:SetDataHeight(25)
+  EventList:AddColumn(config.Language[config.LanguageToUse]["Column0"]):SetWide(1)
   EventList:AddColumn(config.Language[config.LanguageToUse]["Column1"]):SetWide(1)
-  EventList:AddColumn(config.Language[config.LanguageToUse]["Column2"]):SetWide(50)
+  EventList:AddColumn(config.Language[config.LanguageToUse]["Column2"]):SetWide(120)
   EventList:AddColumn(config.Language[config.LanguageToUse]["Column3"]):SetWide(500)
-  for _, v in pairs(events) do
-    EventList:AddLine(v.kind, v.time, v.event)
+  for k, v in pairs(events) do
+    EventList:AddLine(k, v.kind, v.time, v.event)
   end
 
-  EventList.OnRowRightClick = function() 
+  for _, line in pairs(EventList:GetLines()) do
+    function line:Paint(w, h)
+      if self:IsHovered() then 
+        draw.RoundedBox(0, 0, 0, w, h, RAS.Config.LightColor)
+      elseif self:IsSelected() then
+        draw.RoundedBox(0, 0, 0, w, h, RAS.Config.DarkColor)
+      elseif self:GetAltLine() then
+        draw.RoundedBox(0, 0, 0, w, h, Color(230, 230, 230))
+      else
+        draw.RoundedBox(0, 0, 0, w, h+10, Color(214, 214, 214))
+      end
+    end
+    for _, column in pairs(line.Columns) do
+      column:SetFont("RASMainTextFont")
+    end
+  end
+
+  for _, v in pairs(EventList.Columns) do
+    function v.Header:Paint(w, h)
+      draw.RoundedBox(0, 0, 0, w, h, Color(190, 190, 190))
+    end
+    v.Header:SetFont("RASLblTextFont")
+  end
+
+  function EventList.VBar:Paint(w, h) 
+    draw.RoundedBox(0, 0, 0, w, h, Color(214, 214, 214))
+  end
+
+  function EventList.VBar.btnUp:Paint(w, h) 
+  end
+
+  function EventList.VBar.btnDown:Paint(w, h)
+  end
+
+  function EventList.VBar.btnGrip:Paint(w, h)
+    draw.RoundedBox(100, 0, 0, w, h, Color(190, 190, 190))
+  end
+
+  function EventList:OnRowRightClick(_, line) 
+    local id = line:GetColumnText(1)
+
     local Menu = DermaMenu()
-    Menu:AddOption(config.Language[config.LanguageToUse]["Copy1"]):SetIcon("icon16/page_white_copy.png")
+    Menu:AddOption(config.Language[config.LanguageToUse]["Copy1"], function() 
+      local Steam64 = events[id].adminSteam64
+      SetClipboardText(Steam64)
+    end):SetIcon("icon16/page_white_copy.png")
     Menu:AddOption(config.Language[config.LanguageToUse]["Copy2"], function() 
-      -- retrieve ids from event table
+      local Steam64 = events[id].playerSteam64
+      SetClipboardText(Steam64)
     end):SetIcon("icon16/page_white_copy.png")
     Menu:Open()
   end

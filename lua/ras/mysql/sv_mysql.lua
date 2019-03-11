@@ -8,7 +8,11 @@ RAS.ConnectToDatabase = function()
     "UnBanUser",
     "ExemptUser",
     "UnExemptUser",
-    "OpenMainMenu"
+    "OpenMainMenu",
+    "OpenBansMenu",
+    "OpenSettingsMenu",
+    "SettingMenu",
+    "BanMenu"
   }
   for k, v in pairs(allthenetworkstrings) do
     util.AddNetworkString("RAS" .. v)

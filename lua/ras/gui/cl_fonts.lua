@@ -1,12 +1,13 @@
 surface.CreateFont("RASMainTextFont", {
-	font = "Arial",
-	size = 25,
-	weight = 500,
+	font = "CloseCaption_Bold",
+	size = 15,
+	antialias = true,
+	weight = 800
 })
 
 surface.CreateFont("RASLblTextFont", {
 	font = "Arial",
-	size = 20,
+	size = 15,
 	weight = 551,
 })
 

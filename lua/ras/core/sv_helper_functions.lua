@@ -1,3 +1,5 @@
+local config = RAS.Config
+
 RAS.GetByNick = function(ply)
   local name = string.lower(ply)
 	for _, v in ipairs(player.GetHumans()) do
@@ -13,12 +15,12 @@ RAS.HasPerms = function(ply)
 end
 
 RAS.IsValidKind = function(kind)
-  local tbl = RAS.Config.Language[RAS.Config.LanguageToUse]["Kinds"]
+  local tbl = config.Language[config.LanguageToUse]["Kinds"]
   for k, v in pairs(tbl) do 
 		if v == kind then
 			return true
 		elseif #tbl == k then
-			RAS.NotifySystem(ply, "info", config.Language[config.LanguageToUse]["NoType"])
+			RAS.NotifySystem(ply, "info", RAS.Config.Language[RAS.Config.LanguageToUse]["NoType"])
 			return false
 		end
 	end
