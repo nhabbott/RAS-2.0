@@ -7,7 +7,7 @@ net.Receive("RASSettingMenu", function(len, ply)
   DFrame:Center()
   DFrame:SetDraggable(true)
   DFrame:MakePopup()
-  DFrame:SetTitle(config.Language[config.LanguageToUse]["MenuTitle"])
+  DFrame:SetTitle(config.Language[config.LanguageToUse]["MenuTitleSetting"])
   DFrame:ShowCloseButton(true)
   DFrame.Paint = function(s, w, h)
     draw.RoundedBox(0, 0, 0, w, h, Color(214, 214, 214))
@@ -42,19 +42,73 @@ net.Receive("RASSettingMenu", function(len, ply)
     end
   end
 
-  local backpic = "ras/settings.png"
+  local backpic = "ras/back.png"
+  local savepic = "ras/save.png"
 
-  local ViewSettings = vgui.Create("DImageButton", DFrame)
-  ViewSettings:SetPos(DFrame:GetWide() - 42, DFrame:GetTall() - 52)
-  ViewSettings:SetSize(24, 24)
-  ViewSettings:SetImage(backpic)
-  ViewSettings.DoClick = function()
+  local Back = vgui.Create("DImageButton", DFrame)
+  Back:SetPos(18, DFrame:GetTall() - 52)
+  Back:SetSize(24, 24)
+  Back:SetImage(backpic)
+  Back.DoClick = function()
+    rippleraid1 = 0
+    show1ripple = true
+    timer.Simple(.3, function() 
+      show1ripple = false
+      net.Start("RASOpenMainMenu")
+      net.SendToServer()
+      timer.Simple(.1, function() DFrame:Close() end)
+    end)
+  end
+
+  local Save = vgui.Create("DImageButton", DFrame)
+  Save:SetPos(DFrame:GetWide() - 42, DFrame:GetTall() - 52)
+  Save:SetSize(24, 24)
+  Save:SetImage(savepic)
+  Save.DoClick = function()
     rippleraid2 = 0
     show2ripple = true
     timer.Simple(.3, function() 
       show2ripple = false
-      -- DFrame:Close()
-      -- RASOpenSettingsMenu
+      net.Start("RASSaveConfig")
+        net.WriteTable(settings)
+      net.SendToServer()
+      DFrame:Close()
     end)
+  end
+
+  local AntiSpam = vgui.Create("DButton", DFrame)
+  AntiSpam:SetPos(DFrame:GetWide() - 70, 126)
+  AntiSpam:SetSize(50, 30)
+  AntiSpam:SetText("")
+  AntiSpam.IsOn = settings.AntiSpamming
+  AntiSpam.Paint = function(s, w, h)
+    local val = nil
+    if AntiSpam.IsOn then
+      val = 1
+    else
+      val = 0
+    end
+
+    if AntiSpam.IsOn then
+      draw.RoundedBox(15, 0, 0, w, h, Color(0, 100, 0, 255))
+      surface.SetDrawColor(RAS.Config.PrimaryColor)
+      draw.NoTexture()
+      RASCircle(15, h - 15, 15, 360)
+    else
+      draw.RoundedBox(15, 0, 0, w, h, Color(100, 0, 0, 255))
+      surface.SetDrawColor(RAS.Config.PrimaryColor)
+      draw.NoTexture()
+      RASCircle(35, h - 15, 15, 360)
+    end
+  end
+
+  AntiSpam.DoClick = function()
+    if AntiSpam.IsOn then
+      AntiSpam.IsOn = false
+      settings.AntiSpamming = false
+    else
+      AntiSpam.IsOn = true
+      settings.AntiSpamming = true
+    end
   end
 end)

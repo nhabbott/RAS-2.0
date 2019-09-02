@@ -1,14 +1,4 @@
-local function RASOpenBansMenu()
-  net.Start("RASOpenBansMenu")
-  net.SendToServer()
-end
-
-local function RASOpenSettingsMenu()
-  net.Start("RASOpenSettingsMenu")
-  net.SendToServer()
-end
-
-net.Receive("RASOpenMainMenu", function(len, ply)
+net.Receive("RASMainMenu", function(len, ply)
   local config = RAS.Config
   local events = net.ReadTable()
   
@@ -17,7 +7,7 @@ net.Receive("RASOpenMainMenu", function(len, ply)
   DFrame:Center()
   DFrame:SetDraggable(true)
   DFrame:MakePopup()
-  DFrame:SetTitle(config.Language[config.LanguageToUse]["MenuTitle"])
+  DFrame:SetTitle(config.Language[config.LanguageToUse]["MenuTitleMain"])
   DFrame:ShowCloseButton(true)
   DFrame.Paint = function(s, w, h)
     draw.RoundedBox(0, 0, 0, w, h, Color(214, 214, 214))
@@ -64,8 +54,9 @@ net.Receive("RASOpenMainMenu", function(len, ply)
     show2ripple = true
     timer.Simple(.3, function() 
       show2ripple = false
-      RASOpenSettingsMenu()
-      DFrame:Close()
+      net.Start("RASOpenSettingsMenu")
+      net.SendToServer()
+      timer.Simple(.1, function() DFrame:Close() end)
     end)
   end
 
@@ -78,8 +69,9 @@ net.Receive("RASOpenMainMenu", function(len, ply)
     show1ripple = true
     timer.Simple(.3, function() 
       show1ripple = false
-      RASOpenBansMenu()
-      DFrame:Close()
+      net.Start("RASOpenBansMenu")
+      net.SendToServer()
+      timer.Simple(.1, function() DFrame:Close() end)
     end)
   end
 
@@ -88,7 +80,7 @@ net.Receive("RASOpenMainMenu", function(len, ply)
   EventList:Dock(FILL)
   EventList:SetMultiSelect(false)
   EventList:SetPaintBackground(false)
-  EventList:SetSortable(false)
+  EventList:SetSortable(true)
   EventList:SetHeaderHeight(30)
   EventList:SetDataHeight(25)
   EventList:AddColumn(config.Language[config.LanguageToUse]["Column0"]):SetWide(1)
@@ -123,8 +115,10 @@ net.Receive("RASOpenMainMenu", function(len, ply)
     v.Header:SetFont("RASLblTextFont")
   end
 
+  EventList:SortByColumn(1, true)
+
   function EventList.VBar:Paint(w, h) 
-    draw.RoundedBox(0, 0, 0, w, h, Color(214, 214, 214))
+    draw.RoundedBox(100, 0, 0, w, h, Color(214, 214, 214))
   end
 
   function EventList.VBar.btnUp:Paint(w, h) 

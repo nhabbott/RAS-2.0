@@ -1,5 +1,5 @@
-local functionsTable = {}
-functionsTable["enable"] = function(ply)
+local FunctionsTable = {}
+FunctionsTable["enable"] = function(ply)
 	if RAS.HasPerms(ply) then
 		RAS.Config.AntiSpamming = true
 		file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
@@ -10,7 +10,7 @@ functionsTable["enable"] = function(ply)
 	end
 end
 
-functionsTable["disable"] = function(ply)
+FunctionsTable["disable"] = function(ply)
 	if RAS.HasPerms(ply) then
 		RAS.Config.AntiSpamming = false
 		file.Write("ras/config.txt", util.TableToJSON(RAS.Config))
@@ -21,7 +21,7 @@ functionsTable["disable"] = function(ply)
 	end
 end
 
-functionsTable["chat"] = function(ply, args)
+FunctionsTable["chat"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
 			RAS.Config.Chat.Enabled = true
@@ -39,7 +39,7 @@ functionsTable["chat"] = function(ply, args)
 	end
 end
 
-functionsTable["props"] = function(ply, args)
+FunctionsTable["props"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
 			RAS.Config.Prop.Enabled = true
@@ -57,7 +57,7 @@ functionsTable["props"] = function(ply, args)
 	end
 end
 
-functionsTable["sents"] = function(ply, args)
+FunctionsTable["sents"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
 			RAS.Config.Sent.Enabled = true
@@ -75,7 +75,7 @@ functionsTable["sents"] = function(ply, args)
 	end
 end
 
-functionsTable["effects"] = function(ply, args)
+FunctionsTable["effects"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
 			RAS.Config.Effect.Enabled = true
@@ -93,7 +93,7 @@ functionsTable["effects"] = function(ply, args)
 	end
 end
 
-functionsTable["ragdolls"] = function(ply, args)
+FunctionsTable["ragdolls"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
 			RAS.Config.Ragdoll.Enabled = true
@@ -111,7 +111,7 @@ functionsTable["ragdolls"] = function(ply, args)
 	end
 end
 
-functionsTable["vehicles"] = function(ply, args)
+FunctionsTable["vehicles"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
 			RAS.Config.Vehicle.Enabled = true
@@ -129,7 +129,7 @@ functionsTable["vehicles"] = function(ply, args)
 	end
 end
 
-functionsTable["npc"] = function(ply, args)
+FunctionsTable["npc"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		if args[1] == "on" then
 			RAS.Config.Npc.Enabled = true
@@ -147,7 +147,7 @@ functionsTable["npc"] = function(ply, args)
 	end
 end
 
-functionsTable["ban"] = function(ply, args)
+FunctionsTable["ban"] = function(ply, args)
 	local ptb = RAS.GetByNick(args[1])
 	if RAS.HasPerms(ply) then
 		if IsValid(ptb) then
@@ -168,7 +168,7 @@ functionsTable["ban"] = function(ply, args)
 	end
 end
 
-functionsTable["unban"] = function(ply, args)
+FunctionsTable["unban"] = function(ply, args)
 	local ptub = RAS.GetByNick(args[1])
 	if RAS.HasPerms(ply) then
 		if IsValid(ptub) then
@@ -185,7 +185,7 @@ functionsTable["unban"] = function(ply, args)
 	end
 end
 
-functionsTable["exempt"] = function(ply, args)
+FunctionsTable["exempt"] = function(ply, args)
 	local pte = RAS.GetByNick(args[1])
 	if RAS.HasPerms(ply) then
 		if IsValid(pte) then
@@ -206,7 +206,7 @@ functionsTable["exempt"] = function(ply, args)
 	end
 end
 
-functionsTable["unexempt"] = function(ply, args)
+FunctionsTable["unexempt"] = function(ply, args)
 	local ptue = RAS.GetByNick(args[1])
 	if RAS.HasPerms(ply) then
 		if IsValid(ptue) then
@@ -223,10 +223,10 @@ functionsTable["unexempt"] = function(ply, args)
 	end
 end
 
-functionsTable["menu"] = function(ply, args)
+FunctionsTable["menu"] = function(ply, args)
 	if RAS.HasPerms(ply) then
 		local logs = util.JSONToTable(file.Read("ras/logs.txt", "DATA"))
-		net.Start("RASOpenMainMenu")
+		net.Start("RASMainMenu")
 			net.WriteTable(logs)
 		net.Send(ply)
 	else
@@ -237,7 +237,7 @@ end
 local function CommandFilter(ply, text)
 	local args = string.Split(text, " ")
 	if args[1] == "!ras" || args[1] == "/ras" then
-		local func = functionsTable[args[2]]
+		local func = FunctionsTable[args[2]]
 		if func then
 			table.remove(args, 1)
 			table.remove(args, 1)

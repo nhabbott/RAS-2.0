@@ -17,20 +17,22 @@ if (SERVER) then
   RAS.Config.Npc = {}
 
   MsgC(Color(255,255,255,255), "/////////////////////////////////////////////////\n")
-  MsgC(Color(255,255,255,255), "//          RAS Loading... Created By:         //\n")
-  MsgC(Color(255,255,255,255), "//               MexicanRaindeer               //\n")
+  MsgC(Color(255,255,255,255), "//                 RAS Loading...              //\n")
+  MsgC(Color(255,255,255,255), "//                MexicanRaindeer              //\n")
   MsgC(Color(255,255,255,255), "/////////////////////////////////////////////////\n")
 
   local fol = "ras/"
   local files, folders = file.Find(fol .. "*", "LUA")
   local filesnumber = 0
 
+  // Includes all lua files
   for k, v in pairs(files) do
     if string.GetExtensionFromFilename(v) == "lua" then
       include(fol .. v)
     end
   end
 
+  // 
   for _, folder in SortedPairs(folders, true) do
     local localfilenum = 0
     for _, File in SortedPairs(file.Find(fol .. folder .. "/cl_*.lua", "LUA"), true) do
@@ -87,6 +89,9 @@ if (SERVER) then
 
   resource.AddFile("materials/ras/settings.png")
   resource.AddFile("materials/ras/bans.png")
+  resource.AddFile("materials/ras/back.png")
+  resource.AddFile("materials/ras/save.png")
+  resource.AddFile("materials/ras/addban.png")
 
   MsgC(Color(0,255,0,255), "/////////////////////////////////////////////////\n")
   MsgC(Color(0,255,0,255), "//                  RAS Loaded!                //\n")
