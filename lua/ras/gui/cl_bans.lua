@@ -71,7 +71,9 @@ net.Receive("RASBanMenu", function(len, ply)
     ViewBox:AddChoice(config.Language[config.LanguageToUse]["Exempt"])
     ViewBox.OnSelect = function(_, _, val)
       if val == config.Language[config.LanguageToUse]["Ban"] then
-        local BanList = vgui.Create("DListView", DFrame)
+        if ExemptList ~= nil && ExemptList:IsValid() then ExemptList:Clear() end
+        if EELabel ~= nil && EELabel:IsValid() then EELabel:Remove() end
+        BanList = vgui.Create("DListView", DFrame)
         BanList:DockMargin(-6, 3, -6, 65)
         BanList:Dock(FILL)
         BanList:SetMultiSelect(false)
@@ -85,24 +87,56 @@ net.Receive("RASBanMenu", function(len, ply)
         BanList:AddColumn(config.Language[config.LanguageToUse]["Column5"]):SetWide(120)
         //BanList:AddColumn(config.Language[config.LanguageToUse]["Column6"]):SetWide(500)
         BanList:AddColumn(config.Language[config.LanguageToUse]["Column7"]):SetWide(380)
-        for k, v in pairs(bans) do
-          BanList:AddLine(k, v.kind, v.asid, v.bsid, v.reason)
-        end
+        
+        if table.IsEmpty(bans) then
+          EBLabel = vgui.Create("DLabel", DFrame)
+          EBLabel:SetPos(DFrame:GetWide() / 2 - 80, DFrame:GetTall() / 2)
+          EBLabel:SetText(config.Language[config.LanguageToUse]["MenuEmptyB"])
+          EBLabel:SetTextColor(Color(0, 0, 0, 255))
+          EBLabel:SetFont("RASMainTextFont")
+          EBLabel:SizeToContents()
+        else 
+          for k, v in pairs(bans) do
+            BanList:AddLine(k, v.kind, v.asid, v.bsid, v.reason)
+          end
 
-        for _, line in pairs(BanList:GetLines()) do
-          function line:Paint(w, h)
-            if self:IsHovered() then 
-              draw.RoundedBox(0, 0, 0, w, h, RAS.Config.LightColor)
-            elseif self:IsSelected() then
-              draw.RoundedBox(0, 0, 0, w, h, RAS.Config.DarkColor)
-            elseif self:GetAltLine() then
-              draw.RoundedBox(0, 0, 0, w, h, Color(230, 230, 230))
-            else
-              draw.RoundedBox(0, 0, 0, w, h+10, Color(214, 214, 214))
+          for _, line in pairs(BanList:GetLines()) do
+            function line:Paint(w, h)
+              if self:IsHovered() then 
+                draw.RoundedBox(0, 0, 0, w, h, RAS.Config.LightColor)
+              elseif self:IsSelected() then
+                draw.RoundedBox(0, 0, 0, w, h, RAS.Config.DarkColor)
+              elseif self:GetAltLine() then
+                draw.RoundedBox(0, 0, 0, w, h, Color(230, 230, 230))
+              else
+                draw.RoundedBox(0, 0, 0, w, h+10, Color(214, 214, 214))
+              end
+            end
+            for _, column in pairs(line.Columns) do
+              column:SetFont("RASMainTextFont")
             end
           end
-          for _, column in pairs(line.Columns) do
-            column:SetFont("RASMainTextFont")
+
+          function BanList:OnRowRightClick(_, line) 
+            local id = line:GetColumnText(1)
+  
+            local Menu = DermaMenu()
+            Menu:AddOption(config.Language[config.LanguageToUse]["Copy1"], function() 
+              local Steam64 = bans[id].asid
+              SetClipboardText(Steam64)
+            end):SetIcon("icon16/page_white_copy.png")
+            Menu:AddOption(config.Language[config.LanguageToUse]["Copy2"], function() 
+              local Steam64 = bans[id].bsid
+              SetClipboardText(Steam64)
+            end):SetIcon("icon16/page_white_copy.png")
+            Menu:AddOption(config.Language[config.LanguageToUse]["MenuUnban"], function() 
+              local Steam64 = bans[id].bsid
+              net.Start("RASUnBanUser")
+                net.WriteString(Steam64)
+                net.WriteString(bans[id].kind)
+              net.SendToServer()
+            end):SetIcon("icon16/delete.png")
+            Menu:Open()
           end
         end
 
@@ -128,30 +162,10 @@ net.Receive("RASBanMenu", function(len, ply)
         function BanList.VBar.btnGrip:Paint(w, h)
           draw.RoundedBox(100, 0, 0, w, h, Color(190, 190, 190))
         end
-
-        function BanList:OnRowRightClick(_, line) 
-          local id = line:GetColumnText(1)
-
-          local Menu = DermaMenu()
-          Menu:AddOption(config.Language[config.LanguageToUse]["Copy1"], function() 
-            local Steam64 = bans[id].asid
-            SetClipboardText(Steam64)
-          end):SetIcon("icon16/page_white_copy.png")
-          Menu:AddOption(config.Language[config.LanguageToUse]["Copy2"], function() 
-            local Steam64 = bans[id].bsid
-            SetClipboardText(Steam64)
-          end):SetIcon("icon16/page_white_copy.png")
-          Menu:AddOption(config.Language[config.LanguageToUse]["MenuUnban"], function() 
-            local Steam64 = bans[id].bsid
-            net.Start("RASUnBanUser")
-              net.WriteString(Steam64)
-              net.WriteString(bans[id].kind)
-            net.SendToServer()
-          end):SetIcon("icon16/delete.png")
-          Menu:Open()
-        end
       elseif val == config.Language[config.LanguageToUse]["Exempt"] then
-        local ExemptList = vgui.Create("DListView", DFrame)
+        if BanList ~= nil && BanList:IsValid() then BanList:Clear() end
+        if EBLabel ~= nil && EBLabel:IsValid() then EBLabel:Remove() end
+        ExemptList = vgui.Create("DListView", DFrame)
         ExemptList:DockMargin(-6, 3, -6, 65)
         ExemptList:Dock(FILL)
         ExemptList:SetMultiSelect(false)
@@ -165,24 +179,56 @@ net.Receive("RASBanMenu", function(len, ply)
         ExemptList:AddColumn(config.Language[config.LanguageToUse]["Column5"]):SetWide(120)
         //ExemptList:AddColumn(config.Language[config.LanguageToUse]["Column6"]):SetWide(500)
         ExemptList:AddColumn(config.Language[config.LanguageToUse]["Column7"]):SetWide(380)
-        for k, v in pairs(exempts) do
-          ExemptList:AddLine(k, v.kind, v.asid, v.bsid, v.reason)
-        end
 
-        for _, line in pairs(ExemptList:GetLines()) do
-          function line:Paint(w, h)
-            if self:IsHovered() then 
-              draw.RoundedBox(0, 0, 0, w, h, RAS.Config.LightColor)
-            elseif self:IsSelected() then
-              draw.RoundedBox(0, 0, 0, w, h, RAS.Config.DarkColor)
-            elseif self:GetAltLine() then
-              draw.RoundedBox(0, 0, 0, w, h, Color(230, 230, 230))
-            else
-              draw.RoundedBox(0, 0, 0, w, h+10, Color(214, 214, 214))
+        if table.IsEmpty(exempts) then
+          EELabel = vgui.Create("DLabel", DFrame)
+          EELabel:SetPos(DFrame:GetWide() / 2 - 90, DFrame:GetTall() / 2)
+          EELabel:SetText(config.Language[config.LanguageToUse]["MenuEmptyE"])
+          EELabel:SetTextColor(Color(0, 0, 0, 255))
+          EELabel:SetFont("RASMainTextFont")
+          EELabel:SizeToContents()
+        else
+          for k, v in pairs(exempts) do
+            ExemptList:AddLine(k, v.kind, v.asid, v.bsid, v.reason)
+          end
+  
+          for _, line in pairs(ExemptList:GetLines()) do
+            function line:Paint(w, h)
+              if self:IsHovered() then 
+                draw.RoundedBox(0, 0, 0, w, h, RAS.Config.LightColor)
+              elseif self:IsSelected() then
+                draw.RoundedBox(0, 0, 0, w, h, RAS.Config.DarkColor)
+              elseif self:GetAltLine() then
+                draw.RoundedBox(0, 0, 0, w, h, Color(230, 230, 230))
+              else
+                draw.RoundedBox(0, 0, 0, w, h+10, Color(214, 214, 214))
+              end
+            end
+            for _, column in pairs(line.Columns) do
+              column:SetFont("RASMainTextFont")
             end
           end
-          for _, column in pairs(line.Columns) do
-            column:SetFont("RASMainTextFont")
+
+          function ExemptList:OnRowRightClick(_, line) 
+            local id = line:GetColumnText(1)
+  
+            local Menu = DermaMenu()
+            Menu:AddOption(config.Language[config.LanguageToUse]["Copy1"], function() 
+              local Steam64 = exempts[id].asid
+              SetClipboardText(Steam64)
+            end):SetIcon("icon16/page_white_copy.png")
+            Menu:AddOption(config.Language[config.LanguageToUse]["Copy2"], function() 
+              local Steam64 = exempts[id].bsid
+              SetClipboardText(Steam64)
+            end):SetIcon("icon16/page_white_copy.png")
+            Menu:AddOption(config.Language[config.LanguageToUse]["MenuUnexempt"], function() 
+              local Steam64 = exempts[id].bsid
+              net.Start("RASUnExemptUser")
+                net.WriteString(Steam64)
+                net.WriteString(exempts[id].kind)
+              net.SendToServer()
+            end):SetIcon("icon16/delete.png")
+            Menu:Open()
           end
         end
 
@@ -207,28 +253,6 @@ net.Receive("RASBanMenu", function(len, ply)
 
         function ExemptList.VBar.btnGrip:Paint(w, h)
           draw.RoundedBox(100, 0, 0, w, h, Color(190, 190, 190))
-        end
-
-        function ExemptList:OnRowRightClick(_, line) 
-          local id = line:GetColumnText(1)
-
-          local Menu = DermaMenu()
-          Menu:AddOption(config.Language[config.LanguageToUse]["Copy1"], function() 
-            local Steam64 = exempts[id].asid
-            SetClipboardText(Steam64)
-          end):SetIcon("icon16/page_white_copy.png")
-          Menu:AddOption(config.Language[config.LanguageToUse]["Copy2"], function() 
-            local Steam64 = exempts[id].bsid
-            SetClipboardText(Steam64)
-          end):SetIcon("icon16/page_white_copy.png")
-          Menu:AddOption(config.Language[config.LanguageToUse]["MenuUnban"], function() 
-            local Steam64 = exempts[id].bsid
-            net.Start("RASUnExemptUser")
-              net.WriteString(Steam64)
-              net.WriteString(exempts[id].kind)
-            net.SendToServer()
-          end):SetIcon("icon16/delete.png")
-          Menu:Open()
         end
       end
     end
@@ -321,10 +345,10 @@ net.Receive("RASBanMenu", function(len, ply)
     ReasonBox:SetPos(15, 135)
     ReasonBox:SetSize(220, 20)
     ReasonBox:SetValue(config.Language[config.LanguageToUse]["Reason"])
+    ReasonBox:SelectAllOnFocus(true)
     ReasonBox:SetUpdateOnType(true)
-    ReasonBox.OnValueChanged = function(text)
-      reason = text
-      print("reason")
+    ReasonBox.OnChange = function()
+      reason = ReasonBox:GetText()
     end
 
     local SubmitButton = vgui.Create("DButton", DFrame)

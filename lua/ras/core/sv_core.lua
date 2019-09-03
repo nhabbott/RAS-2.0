@@ -235,7 +235,7 @@ end
 net.Receive("RASBanUser", function(len, ply)
 	if !RAS.HasPerms(ply) then return end
 	local playertoban = net.ReadString()
-	playertoban = RAS.GetBySteam64(playertounban)
+	playertoban = RAS.GetBySteam64(playertoban)
 	local banreason = net.ReadString()
 	local kind = net.ReadString()
 	//local expiretime = net.ReadInt()
@@ -284,7 +284,7 @@ RAS.ExemptUser = function(ply, playertoexempt, exemptreason, kind, expiretime)
 	if playertoexempt:RASIsExempt(kind) then local msg = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["AlreadyExempted"], "{RAS_Type}", kind) RAS.NotifySystem(ply, "info", msg) return end
 
 	if RAS.HasPerms(ply) then
-		table.insert(RAS.ExemptPlayers, {bsid = playertoexempt:SteamID64(), asid = ply:SteamID64(), reason = reason, kind = kind, expiretime = expiretime})
+		table.insert(RAS.ExemptPlayers, {bsid = playertoexempt:SteamID64(), asid = ply:SteamID64(), reason = exemptreason, kind = kind, expiretime = expiretime})
 		RAS.QueryDatabase("INSERT INTO exemptplayers (bsid, asid, reason, type) VALUES ('"..playertoexempt:SteamID64().."', '"..ply:SteamID64().."', '"..RAS.EscapeString(exemptreason).."', '"..RAS.EscapeString(kind).."')", function() end)
 
 		local msg1 = string.gsub(RAS.Config.Language[RAS.Config.LanguageToUse]["ExemptLog"], "{RAS_Admin}", ply:Nick())

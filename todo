@@ -1,8 +1,6 @@
 Menu
  - Settings Menu
  - Bans Menu
-   - Ability to ban/exempt user
-     - Textbox for reason
      - Refresh main DFrame once ban menu is closed
 
 Bans
