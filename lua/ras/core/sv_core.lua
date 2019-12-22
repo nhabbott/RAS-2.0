@@ -348,3 +348,11 @@ net.Receive("RASSaveConfig", function(len, ply)
 	RAS.Config = newConfig
 	file.Write("ras/config.txt", util.TableToJSON(newConfig))
 end)
+
+net.Receive("RASBMenuRefreshSend", function(len, ply) 
+	net.Start("RASBMenuRefresh")
+		net.WriteTable(RAS.BannedPlayers)
+		net.WriteTable(RAS.ExemptPlayers)
+		net.WriteTable(RAS.GetCurPlayers())
+	net.Send(ply)
+end)

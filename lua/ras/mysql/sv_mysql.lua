@@ -15,7 +15,9 @@ RAS.ConnectToDatabase = function()
     "SaveConfig",
     "SettingMenu",
     "BanMenu",
-    "MainMenu"
+    "MainMenu",
+    "BMenuRefreshSend",
+    "BMenuRefresh"
   }
   for k, v in pairs(allthenetworkstrings) do
     util.AddNetworkString("RAS" .. v)

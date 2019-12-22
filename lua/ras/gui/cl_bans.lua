@@ -1,8 +1,8 @@
 net.Receive("RASBanMenu", function(len, ply)
   local config = RAS.Config
-  local bans = net.ReadTable()
-  local exempts = net.ReadTable()
-  local players = net.ReadTable()
+  bans = net.ReadTable()
+  exempts = net.ReadTable()
+  players = net.ReadTable()
   
   local DFrame = vgui.Create("DFrame")
   DFrame:SetSize(800, 500)
@@ -135,6 +135,8 @@ net.Receive("RASBanMenu", function(len, ply)
                 net.WriteString(Steam64)
                 net.WriteString(bans[id].kind)
               net.SendToServer()
+              net.Start("RASBMenuRefreshSend")
+              net.SendToServer()
             end):SetIcon("icon16/delete.png")
             Menu:Open()
           end
@@ -226,6 +228,8 @@ net.Receive("RASBanMenu", function(len, ply)
               net.Start("RASUnExemptUser")
                 net.WriteString(Steam64)
                 net.WriteString(exempts[id].kind)
+              net.SendToServer()
+              net.Start("RASBMenuRefreshSend")
               net.SendToServer()
             end):SetIcon("icon16/delete.png")
             Menu:Open()
@@ -378,6 +382,15 @@ net.Receive("RASBanMenu", function(len, ply)
         net.SendToServer()
         DFrame:Close()
       end
+
+      net.Start("RASBMenuRefreshSend")
+      net.SendToServer()
     end
   end
+end)
+
+net.Receive("RASBMenuRefresh", function(len, ply) 
+  bans = net.ReadTable()
+  exempts = net.ReadTable()
+  players = net.ReadTable()
 end)
