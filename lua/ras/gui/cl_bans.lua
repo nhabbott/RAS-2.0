@@ -385,6 +385,7 @@ net.Receive("RASBanMenu", function(len, ply)
 
       net.Start("RASBMenuRefreshSend")
       net.SendToServer()
+      --DFrame:Refresh(true)
     end
   end
 end)

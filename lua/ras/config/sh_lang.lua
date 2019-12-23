@@ -65,5 +65,6 @@ RAS.Config.Language["English"] = {
   ["UnBanLog"] = "{RAS_Admin} unbanned {RAS_UnBanned} from {RAS_Type}(s)",
   ["ExemptLog"] = "{RAS_Admin} exempted {RAS_Exempt} from {RAS_Type}(s) with reason: {RAS_Reason}",
   ["UnExemptLog"] = "{RAS_Admin} unexempted {RAS_UnExempt} from {RAS_Type}(s)",
-  ["MenuSettingChanged"] = "{RAS_Admin} changed the settings"
+  ["MenuSettingChanged"] = "{RAS_Admin} changed the settings",
+  ["Delay"] = "Delay"
 }
